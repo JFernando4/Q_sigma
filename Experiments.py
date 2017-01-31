@@ -12,7 +12,7 @@ def train_agent(agent, episodes):
 
 if __name__ == '__main__':
     num_agents = 1000
-    alphas = arange(0.05, 1.05, 0.05) / 8
+    alphas = arange(0.05, 1.05, 0.05)
     sigmas = arange(0, 1.2, 0.2)
     num_episodes = 500
     num_cores = multiprocessing.cpu_count()

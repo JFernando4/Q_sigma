@@ -1,7 +1,10 @@
-import matplotlib.pyplot as plt
-from pylab import zeros,arange,savefig, size
-from TileCoder import numTilings
 import pickle
+
+import matplotlib.pyplot as plt
+from pylab import arange, size
+
+from Old.TileCoder import numTilings
+
 
 def average_reward_read_data(n=1):
     alphas = arange(0.05, 1.05, 0.05) / numTilings
