@@ -1,11 +1,10 @@
-from MountainCar import MountainCar
-from TileCoderApproximator import TileCoderApproximatorAV
-from TileCoder import numTilings
-from Q_sigma import QSigma
 import multiprocessing
-from joblib import Parallel, delayed
 import pickle
-from pylab import arange, zeros, size, float64
+from joblib import Parallel, delayed
+from pylab import arange, size
+from MountainCar import MountainCar
+from Q_sigma import QSigma
+from TileCoderApproximator import TileCoderApproximatorAV
 
 
 def train_agent(agent, episodes):
@@ -13,7 +12,7 @@ def train_agent(agent, episodes):
 
 if __name__ == '__main__':
     num_agents = 1000
-    alphas = arange(0.05, 1.05, 0.05) / numTilings
+    alphas = arange(0.05, 1.05, 0.05) / 8
     sigmas = arange(0, 1.2, 0.2)
     num_episodes = 500
     num_cores = multiprocessing.cpu_count()
