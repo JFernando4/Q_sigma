@@ -1,32 +1,43 @@
-import multiprocessing
-import pickle
-from joblib import Parallel, delayed
-from pylab import arange, size
-from MountainCar import MountainCar
-from Q_sigma import QSigma
 from TileCoderApproximator import TileCoderApproximatorAV
+from Q_sigma import QSigma
+from MountainCar import MountainCar
+from joblib import Parallel, delayed
+import pickle
+from pylab import arange, zeros, size, float64
 
 
-def train_agent(agent, episodes):
-    return agent.train(episodes)
+def train_agent(environment, fa, sig, alph, n, bet, eps, episodes):
+    agent = QSigma(env=environment, function_approximator=fa, alph=alph, sig=sig, n=n, beta=bet, eps=eps)
+    agent.train(episodes)
+    return agent
 
 if __name__ == '__main__':
-    num_agents = 1000
-    alphas = arange(0.05, 1.05, 0.05)
+    num_agents = 200
+    alphas = arange(0.1, 1.1, 0.1)
     sigmas = arange(0, 1.2, 0.2)
-    num_episodes = 500
-    num_cores = multiprocessing.cpu_count()
-    ns = [1, 2, 4, 8, 16, 32]
+    num_episodes = 50
+    num_cores = 10
+    eps = 0.1
+    n = 1
+    Environment = MountainCar()
+    Func_Approx = TileCoderApproximatorAV()
 
-    for n in ns:
-        for sigma in sigmas:
-            for i in range(size(alphas)):
-                alpha = alphas[i]
-                print("Sigma = ", sigma, "Alpha =", alpha)
-                agents = []
-                for j in range(num_agents):
-                    agents.append(QSigma(env=MountainCar(), function_approximator=TileCoderApproximatorAV(), alph=alpha,
-                                         sig=sigma, n=n))
-                rewards = Parallel(n_jobs=num_cores)(delayed(train_agent)(agent, num_episodes) for agent in agents)
-                pickle.dump(agents,
-                            open("Agents_Sigma"+str(sigma)+"_Alpha"+str(alpha)+"N_"+str(n)+".p", "wb"))
+    beta = 0.95
+    for i in range(size(alphas)):
+        alpha = alphas[i]
+        agents = Parallel(n_jobs=num_cores)(delayed(train_agent)
+                                            (Environment, Func_Approx, 1, alpha, n, beta, eps, num_episodes)
+                                            for i in range(num_agents))
+        pickle.dump(agents,
+                    open("/home/jfernan/Q_sigma/Agents/S1.0"+"_A"+str(alpha)+"_N"+str(n)+\
+                         "_B"+str(beta)+".p", "wb"))
+
+
+    for sigma in sigmas:
+        for i in range(size(alphas)):
+            alpha = alphas[i]
+            agents = Parallel(n_jobs=num_cores)(delayed(train_agent)(Environment, Funct_Approx, sigma,
+                                                                     alpha, n, 1, eps, num_episodes) for i in range(num_agents))
+            pickle.dump(agents,
+                        open("/home/jfernan/Q_sigma/Agents/S"+str(sigma)+"_A"+str(alpha)+"_N"+str(n)+\
+                                 "_B1.p", "wb"))
