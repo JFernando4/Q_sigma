@@ -29,9 +29,8 @@ if __name__ == '__main__':
                                             (Environment, Func_Approx, 1, alpha, n, beta, eps, num_episodes)
                                             for i in range(num_agents))
         pickle.dump(agents,
-                    open("/home/jfernan/Q_sigma/Agents/S1.0"+"_A"+str(alpha)+"_N"+str(n)+\
+                    open("/home/jfernan/Q_sigma/Agents/S1.0"+"_A"+str(alpha)+"_N"+str(n) + \
                          "_B"+str(beta)+".p", "wb"))
-
 
     for sigma in sigmas:
         for i in range(size(alphas)):
@@ -40,5 +39,5 @@ if __name__ == '__main__':
                                                 (Environment, Func_Approx, sigma, alpha, n, 1, eps, num_episodes)
                                                 for i in range(num_agents))
             pickle.dump(agents,
-                        open("/home/jfernan/Q_sigma/Agents/S"+str(sigma)+"_A"+str(alpha)+"_N"+str(n)+\
-                                 "_B1.p", "wb"))
+                        open("/home/jfernan/Q_sigma/Agents/S"+str(sigma)+"_A"+str(alpha)+"_N"+str(n) + \
+                             "_B1.p", "wb"))
