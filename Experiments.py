@@ -36,8 +36,9 @@ if __name__ == '__main__':
     for sigma in sigmas:
         for i in range(size(alphas)):
             alpha = alphas[i]
-            agents = Parallel(n_jobs=num_cores)(delayed(train_agent)(Environment, Funct_Approx, sigma,
-                                                                     alpha, n, 1, eps, num_episodes) for i in range(num_agents))
+            agents = Parallel(n_jobs=num_cores)(delayed(train_agent)
+                                                (Environment, Func_Approx, sigma, alpha, n, 1, eps, num_episodes)
+                                                for i in range(num_agents))
             pickle.dump(agents,
                         open("/home/jfernan/Q_sigma/Agents/S"+str(sigma)+"_A"+str(alpha)+"_N"+str(n)+\
                                  "_B1.p", "wb"))
